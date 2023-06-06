@@ -62,4 +62,4 @@ def upload_image(image: UploadFile = File(...)):
     return {class_name}
 
 if __name__ == '__main__':
-    uvicorn.run(app, host="0.0.0.0", port=8000, timeout_keep_alive=1200)
+    uvicorn.run(app, host="0.0.0.0", port=8080, timeout_keep_alive=1200)
