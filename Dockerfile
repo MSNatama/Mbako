@@ -12,9 +12,9 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 # Copy every file in the source folder to the created working directory
 COPY  . .
 
-# Expose to route 8000
-EXPOSE 8000
+# Expose to route 8080
+EXPOSE 8080
 
 ENV PYTHONUNBUFFERED=1
 
-CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8000", "main:app"]
+CMD ["uvicorn", "--host", "0.0.0.0", "--port", "8080", "main:app"]
