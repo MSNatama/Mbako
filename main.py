@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, HTTPException, File
 from pydantic import BaseModel
 import tensorflow as tf
 import numpy as np
@@ -11,7 +11,7 @@ app = FastAPI()
 
 # define the basemodel
     
-def item(BaseModel):
+class item(BaseModel):
     image: UploadFile
 
 # load the .tflite model
@@ -19,7 +19,7 @@ def item(BaseModel):
 interpreter = tf.lite.Interpreter('./model/ModelV3.tflite')
 interpreter.allocate_tensors()
 
-# Define the Preprocess and Prediction Class
+# Define a Prediction Class
 
 classification = ['Rendah', 'Sedang', 'Tinggi'] #the classification labels
 
@@ -52,10 +52,14 @@ def predict(image):
 
 # Define the API endpoint
 
-@app.post("/predict")
-async def add_item(image: UploadFile = File(...)):
+@app.get("/")
+def root():
+    return ("Mbako Classification API")
+
+@app.post("/")
+def upload_image(image: UploadFile = File(...)):
     class_name = predict(image)
     return {class_name}
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=8080, host="0.0.0.0", timeout_keep_alive=1200)
+    uvicorn.run(app, host="0.0.0.0", port=8000, timeout_keep_alive=1200)
