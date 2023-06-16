@@ -76,7 +76,7 @@ def send_password_reset_email(email, token):
     except Exception as e:
         if smtp_server:
             smtp_server.quit()
-        raise Exception("Failed to send password reset email") from e
+        raise Exception("Gagal mengirim token ke email") from e
 
 secret_key = '9f6bd57617dc7827602641f05b611bf2e33f674c3b57010d7e5e42a50035bcf2'
 #os.environ.get('SECRET_KEY')
@@ -95,9 +95,9 @@ def decodeJWT(access_token: str):
         decode_token = jwt.decode(access_token, secret_key, algorithms=['HS256'])
         return decode_token if decode_token['exp'] >= time.time() else None
     except jwt.DecodeError:
-        return {"error": "Invalid token"}  
+        return {"error": "Token tidak valid"}  
     except jwt.ExpiredSignatureError:
-        return {"error": "token expired"}  
+        return {"error": "Token sudah tidak berlaku"}  
     
 # Store image in Cloud Buckets
 def upload_to_bucket(image_file):
